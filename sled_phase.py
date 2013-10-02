@@ -1,10 +1,8 @@
 #!/usr/bin/python
 import sys, time, signal
-import sledclient
 import math
-
-#sys.path.append()
-#to append Wilbert 
+sys.path.append('C:/Users/DCC-User/Documents/GitHub/Rudolph')
+from sledclient import SledClient
 
 
 # Set connection details
@@ -12,25 +10,26 @@ host = "sled"
 port = 3375
 
 # Establish connection
-client = sledclient.SledClient(verbose = 0, nBuffer = 5)
+client = SledClient()
 client.connect(host, port)
 
 # Start streaming positions
 client.startStream()
-time.sleep(2)
+time.sleep(1)
+print " "
 
 client.sendCommand("Lights On")
 
 #open txt file
-file = open('Sled_phase2.txt','a')
+file = open('Sled_phase3.txt','a')
 
 #go to -0.15
 t_position = client.goto(-0.15)
 time.sleep(2.5)
 
 # Getting the current position
-position = client.getPosition(client.time())
-print "Getting position ({} meter)".format(position[0][0])
+position = client.getPosition()
+print "Getting position ({} meter)".format(position[0][0,0])
 
 # Sinusoidal motion
 client.sendCommand("Sinusoid Start 0.15 1.6")
@@ -45,7 +44,7 @@ while 1:
     
     #Since it starts at -.15, sled goes to the right side
     LED = 1 #Right turning point
-    
+    print "LED = RIGHT"
     time.sleep(.4)
     
     #Get time
@@ -63,12 +62,17 @@ while 1:
         
     time.sleep(time_wait)
     # Getting the current position
-    position = client.getPosition(client.time())
-    time_stim = client.time() - start_time
-    print "Position ({} meter)".format(position[0][0])
-    file.write(str(position[0][0])+'\t'+str(time_stim)+'\n')
+    while 1:
+        position = client.getPosition()
+        #print "position ({}seconds)".format(position[0][0,0])
+        if position[0][0,0] > 0.14990:
+            time_stim = client.time() - start_time
+            print "Position ({} meter)".format(position[0][0,0])
+            file.write(str(position[0][0,0])+'\t'+str(time_stim)+'\n')
+            break
     
     LED = 2 #Left turning point
+    print "LED = LEFT"
     time.sleep(.4)
     
     #Get time
@@ -86,14 +90,17 @@ while 1:
         
     time.sleep(time_wait)
     # Getting the current position
-    position = client.getPosition(client.time())
-    time_stim = client.time() - start_time
-    print "Position ({} meter)".format(position[0][0])
-    file.write(str(position[0][0])+'\t'+str(time_stim)+'\n')
+    while 1:
+        position = client.getPosition()
+        if position[0][0,0] < -0.14990:
+            time_stim = client.time() - start_time
+            print "Position ({} meter)".format(position[0][0,0])
+            file.write(str(position[0][0,0])+'\t'+str(time_stim)+'\n')
+            break
         
     trials += 1 
         
-    if trials > 100:
+    if trials > 25:
         #position = client.getPosition(client.time())
         #if position > 0.14:
         break
