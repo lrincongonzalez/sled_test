@@ -20,16 +20,16 @@ time.sleep(1)
 
 client.sendCommand("Lights On")
 
-Period = 1.0,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0
-Repetitions = 01,02,03,04
+Period = 1.2,1.0
+Repetitions = [02]
 
 
 #loop starts here
 #go to -0.15
 
 
-for i in range len(Repetitions):
-    for j in range len(Period):
+for i in range(len(Repetitions)):
+    for j in range(len(Period)):
         rep = Repetitions[i]
         T = Period[j]
         
@@ -45,13 +45,13 @@ for i in range len(Repetitions):
 
             if tzero is None:
                 tzero = p[0]
-            file.write(str(p[0] - tzero)+'\t'str(p[1][0,0])+'\n')
+            file.write(str(p[0] - tzero) + '\t' + str(p[1][0,0]) + '\n')
             time.sleep(0.001)
         
-            print "Period {}, rep {}, Ran for {} ".format(T , rep , p[0] - tzero)
+        print "Period {}, rep {}, Ran for {} ".format(T , rep , p[0] - tzero)
 
         client.sendCommand("Sinusoid Stop")
-        time.sleep(1.0)
+        time.sleep(2.0)
         file.close()
         
     
