@@ -20,8 +20,8 @@ time.sleep(1)
 
 client.sendCommand("Lights On")
 
-Period = 1.2,1.0
-Repetitions = [02]
+Period =  16, 18
+Repetitions = [07]
 
 
 #loop starts here
@@ -31,16 +31,16 @@ Repetitions = [02]
 for i in range(len(Repetitions)):
     for j in range(len(Period)):
         rep = Repetitions[i]
-        T = Period[j]
+        T = Period[j]/10.0
         
         t_position = client.goto(-0.15)
-        time.sleep(2)
+        time.sleep(3)
         #open txt file
         file = open('sin{:03}rep{:02}.txt'.format(T,rep),'a')
         client.sendCommand("Sinusoid Start 0.15 {:03}".format(T))
         tstart = time.time()
         tzero = None
-        while (time.time() - tstart) < 200.0:
+        while (time.time() - tstart) < 300.0:
             p = client.getPositionAndTime()
 
             if tzero is None:
@@ -51,7 +51,7 @@ for i in range(len(Repetitions)):
         print "Period {}, rep {}, Ran for {} ".format(T , rep , p[0] - tzero)
 
         client.sendCommand("Sinusoid Stop")
-        time.sleep(2.0)
+        time.sleep(3.0)
         file.close()
         
     
