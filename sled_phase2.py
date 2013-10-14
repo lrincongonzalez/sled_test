@@ -127,6 +127,16 @@ while 1:
     elif fraction > 0.75:
         time_wait = (mantissa + 1)*T + 0.4 - time_now
         
+    time.sleep(time_wait)
+    # Getting the current position
+    while 1:
+        position = client.getPosition()
+        if position[0][0,0] < 0.01 and position[0][0,0] > -0.01:
+            time_stim = client.time() - start_time
+            print "Position ({} meter)".format(position[0][0,0])
+            file.write(str(position[0][0,0])+'\t'+str(time_stim)+'\n')
+            break
+        
     trials += 1 
         
     if trials > 100:
