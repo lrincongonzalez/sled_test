@@ -18,12 +18,11 @@ client.connect(host, port)
 # Start streaming positions
 client.startStream()
 time.sleep(1)
-print " "
 
 client.sendCommand("Lights On")
 
 #open txt file
-file = open('Sled_phase5.txt','a')
+file = open('Sled_phase6.txt','a')
 
 #go to -0.15
 t_position = client.goto(-0.15)
@@ -38,15 +37,16 @@ client.sendCommand("Sinusoid Start 0.15 1.6")
 time.sleep(5)
 while 1:
     position = client.getPosition()
-    if position[0][0,0]<-.14990:
+    if position[0][0,0]<-.14995:
         start_time = client.time()
+        print "Getting position ({} meter)".format(position[0][0,0])
         break
     time.sleep(.01)
     
     
 
 
-file.write(str(start_time)+'\n')
+#file.write(str(start_time)+'\n')
 
 T = 1.6
 trials = 1

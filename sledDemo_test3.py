@@ -18,7 +18,7 @@ time.sleep(1)
 print " "
 
 #open txt file
-file = open('Sled_test6.txt','a')
+file = open('Sled_test10.txt','a')
 
 client.sendCommand("Lights On")
 
@@ -34,7 +34,7 @@ print "Getting time ({} sec)".format(p[0])
 print "Getting time ({} sec)".format(p[1][0,0])
 
 # Sinusoidal motion
-client.sendCommand("Sinusoid Start 0.15 1.6")
+client.sendCommand("Sinusoid Start 0.15 1.8")
 start_time = client.time()
 start_comp_time = time.time()
 
@@ -42,7 +42,7 @@ start_comp_time = time.time()
 file.write(str(start_time)+'\t'+str(start_comp_time)+'\n')
 print "start time: ({} seconds)".format(start_time)
 
-while client.time()-start_time < 5:
+while client.time()-start_time < 200:
     
    
     # Getting the current position
@@ -53,7 +53,7 @@ while client.time()-start_time < 5:
     file.write(str(position[0][0,0])+'\t'+str(pos_time-start_time)+'\t'+str(comp_time-start_comp_time)+'\n')
         #print "Getting position ({} meter)".format(position)
         #print "client time: ({} seconds)".format(client.time())
-    #time.sleep(.8)
+    time.sleep(.001)
     
 
 client.sendCommand("Sinusoid Stop")
