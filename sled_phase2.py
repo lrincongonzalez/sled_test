@@ -108,10 +108,28 @@ while 1:
             print "Position ({} meter)".format(position[0][0,0])
             file.write(str(position[0][0,0])+'\t'+str(time_stim)+'\n')
             break
+    
+    LED = 0 # middle point
+    print "LED = middle"
+    time.sleep(.2)
+    #get time
+    time_now = client.time() - start_time
+    print "Time ({}seconds)".format(time_now)
+    #claculate where in the cycle we are
+    time_cycle = time_now/T
+    mantissa = math.floor(time_cycle)
+    fraction = time_cycle - mantissa
+    
+    if fraction < 0.25:
+        time_wait = (mantissa)*T + 0.4 - time_now
+    elif fraction > 0.25 and fraction < 0.75:
+        time_wait = (mantissa)*T + 1.2 - time_now
+    elif fraction > 0.75:
+        time_wait = (mantissa + 1)*T + 0.4 - time_now
         
     trials += 1 
         
-    if trials > 25:
+    if trials > 100:
         #position = client.getPosition(client.time())
         #if position > 0.14:
         break
