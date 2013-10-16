@@ -1,5 +1,7 @@
 #!/usr/bin/python
 #this one searches for the right location first in order to calibrate the clock
+#modified from sled_phase2.py, this one searches for the next phase(plus one cycle)
+#which is what I need for my sled experiment
 
 import sys, time, signal
 import math
@@ -72,10 +74,11 @@ while 1:
         time_wait = (mantissa + 1)*T + 0.8 - time_now
         
     while 1:
-        if (client.time() - start_time) < (time_wait + time_now):
+        if (client.time() - start_time) < (time_wait + time_now + T):
             continue
         else:
             break
+        
     # Getting the current position
     while 1:
         position = client.getPosition()
@@ -104,7 +107,7 @@ while 1:
         time_wait = (mantissa + 1)*T - time_now
         
     while 1:
-        if (client.time() - start_time) < (time_wait + time_now):
+        if (client.time() - start_time) < (time_wait + time_now + T):
             continue
         else:
             break
@@ -136,7 +139,7 @@ while 1:
         time_wait = (mantissa + 1)*T + 0.4 - time_now
         
     while 1:
-        if (client.time() - start_time) < (time_wait + time_now):
+        if (client.time() - start_time) < (time_wait + time_now + T):
             continue
         else:
             break
