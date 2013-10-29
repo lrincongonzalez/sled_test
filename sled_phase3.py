@@ -154,7 +154,7 @@ while 1:
         
     trials += 1 
         
-    if trials > 100:
+    if trials > 20:
         #position = client.getPosition(client.time())
         #if position > 0.14:
         break
