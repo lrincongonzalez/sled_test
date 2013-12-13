@@ -46,7 +46,7 @@ for i in range(len(Repetitions)):
             if tzero is None:
                 tzero = p[0]
             file.write(str(p[0] - tzero) + '\t' + str(p[1][0,0]) + '\n')
-            time.sleep(0.1)
+            time.sleep(0.001)
         
         print "Period {}, rep {}, Ran for {} ".format(T , rep , p[0] - tzero)
 
