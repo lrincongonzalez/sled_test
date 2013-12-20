@@ -21,7 +21,7 @@ time.sleep(1)
 client.sendCommand("Lights On")
 
 Period =  [16]
-Repetitions = [15]
+Repetitions = [16]
 
 
 #loop starts here
@@ -40,7 +40,7 @@ for i in range(len(Repetitions)):
         client.sendCommand("Sinusoid Start 0.15 {:03}".format(T))
         tstart = time.time()
         tzero = None
-        while (time.time() - tstart) < 30.0:
+        while (time.time() - tstart) < 100.0:
             p = client.getPositionAndTime()
 
             if tzero is None:

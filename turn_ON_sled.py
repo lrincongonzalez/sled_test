@@ -16,45 +16,29 @@ client.connect(host, port)
 client.startStream()
 time.sleep(1)
 
+while 1:
+    ri = raw_input("Press 1:Lights ON, 2:Lights OFF, 3:Sled ON, 4:Sled OFF, 5:Go to, 8:esc")
 
-
-client.sendCommand("Lights On")
-
-Period =  [16]
-Repetitions = [15]
-
-
-#loop starts here
-#go to -0.15
-
-
-for i in range(len(Repetitions)):
-    for j in range(len(Period)):
-        rep = Repetitions[i]
-        T = Period[j]/10.0
-        
-        t_position = client.goto(-0.15)
-        time.sleep(3)
-        #open txt file
-        file = open('sin{:03}rep{:02}.txt'.format(T,rep),'a')
-        client.sendCommand("Sinusoid Start 0.15 {:03}".format(T))
-        tstart = time.time()
-        tzero = None
-        while (time.time() - tstart) < 30.0:
-            p = client.getPositionAndTime()
-
-            if tzero is None:
-                tzero = p[0]
-            file.write(str(p[0] - tzero) + '\t' + str(p[1][0,0]) + '\n')
-            time.sleep(0.001)
-        
-        print "Period {}, rep {}, Ran for {} ".format(T , rep , p[0] - tzero)
-
+    if ri == '1':
+        client.sendCommand("Lights On")
+        print "Lights ON"
+    if ri == '2':
+        client.sendCommand("Lights Off")
+        print "Lights Off"
+    if ri == '3':
+        client.sendCommand("Sinusoid Start 0.15 1.6")
+        print "Sled ON"
+    if ri == '4':
         client.sendCommand("Sinusoid Stop")
-        time.sleep(3.0)
-        file.close()
-        
-    
+        print "Sled OFF"
+    if ri == '5':
+        goto_sled = raw_input("go where?")
+        client.goto(goto_sled)
+        print "go to"
+        time.sleep(3)
+    if ri == '8':
+        break;
+
 
 
 # Shutdown
