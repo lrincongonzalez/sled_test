@@ -16,6 +16,10 @@ client.connect(host, port)
 client.startStream()
 time.sleep(1)
 
+client.goto(-0.15)
+
+client.sendCommand("Sinusoid Start 0.15 1.6")
+
 while 1:
     ri = raw_input("Press 1:Lights ON, 2:Lights OFF, 3:Sled ON, 4:Sled OFF, 5:Go to, 8:esc")
 
